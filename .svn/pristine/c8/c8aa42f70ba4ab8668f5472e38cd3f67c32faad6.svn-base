@@ -1,0 +1,54 @@
+var connection = require('../mysqlConnection.js')
+var _ = require('underscore')
+var log = require('../log.js')
+var helper = require('../helper.js')
+var async = require('async')
+var diskspace = require('diskspace')
+var jsonfile = require('jsonfile')
+var Q = require('q')
+var os = require('os')
+
+exports.getStatus = function (req, res) {
+    var path = os.platform() === 'win32' ? 'C' : '/';
+    diskspace.check('/', function (err, total, free, status) {
+        if (err) {
+            log.d('Error when getting system info');
+            return res.status(500).json({ success: false, code: err.code, message: err.message || 'unknown disk error' });
+        }
+        return res.json({ success: true, total: total, free: free, status: status });
+    });
+};
+
+exports.getVersion = function (req, res) {
+    var versionFile = './package.json';
+    var revisionFile = './svn_revision.json';
+    _getVersion(versionFile, revisionFile)
+    .then(function(result) {
+        return res.json({success: true, version: result.join('.')});
+    })
+    .fail(function (err) {
+        return res.status(500).json({ success: false, code: err.code, message: err.message || 'unknown reading error' });
+    });
+};
+
+function _getVersion(versionFile, revisionFile) {
+    var deferred = Q.defer();
+    var result = [];
+    jsonfile.readFile(versionFile, function (err, version) {
+        if (err) {
+            log.d('Cannot read version');
+            return deferred.reject(new Error(err));
+        }
+        result.push(version.version);
+        jsonfile.readFile(revisionFile, function (err, revision) {
+            if (err) {
+                log.d('Cannot read revision');
+                return deferred.reject(new Error(err));
+            }
+            // console.dir(revision);
+            result.push(revision.latestSVNRevision);
+            deferred.resolve(result);
+        })
+    })
+    return deferred.promise;
+}

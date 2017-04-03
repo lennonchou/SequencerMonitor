@@ -1,0 +1,251 @@
+var connection = require('../mysqlConnection.js')
+var mysql = require('mysql')
+var _ = require('underscore')
+var log = require('../log.js')
+var helper = require('../helper.js')
+var async = require('async')
+
+exports.create = function (req, res) {
+    // create patient info
+    var body = req.body;
+    var name = body.name;
+    var dob = body.dob;
+    var gender = body.gender;
+    var hospitalNumber = body.hospitalNumber;
+    var pathologicNumber = body.pathologicNumber;
+    var clinicalDiagnosis = body.clinicalDiagnosis;
+    var comment = body.comment;
+    // validation check
+    if (!helper.validationCheck([name])) {
+        return res.status(400).json({ success: false, error: 'Missing key parameters' });
+    } else {
+        connection.myQuery(helper.constructInsertSQL(['name', 'dob', 'gender', 'hospitalNumber', 'pathologicNumber', 'clinicalDiagnosis', 'comment', 'createTime'], 'Patient'), 
+        [name, dob, gender, hospitalNumber, pathologicNumber, clinicalDiagnosis, comment])
+        .then(function (row) {
+            var id = row.insertId;
+            return res.json({ success: true, patientId: id });
+        })
+        .fail(function (err) {
+            log.d('Error when creating new patient: ' + err.message);
+            return res.status(500).json({ success: false, error: err.code, message: err.message || 'Unknown' });
+        });
+    }
+};
+
+exports.edit = function (req, res) {
+    // edit patient info
+    var body = req.body;
+    var name = body.name;
+    var dob = body.dob;
+    var gender = body.gender;
+    var hospitalNumber = body.hospitalNumber;
+    var pathologicNumber = body.pathologicNumber;
+    var clinicalDiagnosis = body.clinicalDiagnosis;
+    var comment = body.comment;
+    var id = body.id;
+    if (!helper.validationCheck([name, id])) {
+        return res.status(400).json({ success: false, error: 'Missing key parameters' });
+    } else {
+        connection.myQuery(helper.constructUpdateSQL(['name', 'dob', 'gender', 'hospitalNumber', 'pathologicNumber', 'clinicalDiagnosis', 'comment'], 'Patient', [{name: 'id', exact: 1}]),
+        [name, dob, gender, hospitalNumber, pathologicNumber, clinicalDiagnosis, comment, id])
+        .then(function (result) {
+            return res.json({ success: true });
+        })
+        .fail(function (err) {
+            log.d('Error when editing exsting patient: ' + err.message);
+            return res.status(500).json({ success: false, error: err.code, message: err.message || 'Unknown' });
+        });
+    }
+};
+
+exports.delete = function (req, res) {
+    // delete one patient
+    var body = req.body;
+    var id = body.id;
+    if (!helper.validationCheck([id])) {
+        return res.status(400).json({ success: false, error: 'Missing id' });
+    }
+    connection.myQuery('DELETE FROM Patient WHERE id = ?', [id])
+        .then(function (result) {
+            if (result.affectedRows) {
+                return res.json({ success: true, patiendId: id });
+            }
+            log.d('No such patient');
+            return res.status(401).json({ success: false, error: 'No such patient' });
+        })
+        .fail(function (err) {
+            log.d('Error when deleting exsting patient: ' + err.message);
+            return res.status(500).json({ success: false, error: err.code, message: err.message || 'Unknown' });
+        })
+};
+
+exports.search = function (req, res) {
+    // search based on name, gender, hospitalNumber, pathologicNumber
+    var keys = [];
+    var values = [];
+    var columns = ['Patient.id', 'Patient.name', 'gender', 'dob', 'hospitalNumber', 'pathologicNumber', 'clinicalDiagnosis', 'Patient.comment AS patientComment', 'Sample.sampleNumber', 'material', 'site', 'tumorCellContent',
+        'pathologicDiagnosis', 'inspectionDate', 'Sample.comment AS sampleComment', 'File.status AS sampleStatus'];
+    var name = req.query.name;
+    var gender = req.query.gender;
+    var hospitalNumber = req.query.hospitalNumber;
+    var pathologicNumber = req.query.pathologicNumber;
+    var inspectionDateLow = req.query.inspectionDateLow;
+    var inspectionDateHigh = req.query.inspectionDateHigh;
+    var sampleNumber = req.query.sampleNumber;
+    if (name && name.length) {
+        keys.push({ name: 'Patient.name' });
+        values.push('%' + name + '%');
+    }
+    if (gender && gender.length) {
+        keys.push({ name: 'Patient.gender', exact: 1 });
+        values.push(gender);
+    }
+    if (hospitalNumber && hospitalNumber.length) {
+        keys.push({ name: 'Patient.hospitalNumber' });
+        values.push(hospitalNumber + '%');
+    }
+    if (pathologicNumber && pathologicNumber.length) {
+        keys.push({ name: 'Patient.pathologicNumber' });
+        values.push(pathologicNumber + '%');
+    }
+    // if (inspectionDateLow && inspectionDateLow.length) {
+    //     keys.push({ name: 'Sample.inspectionDate', low: 1 });
+    //     values.push(pathologicNumber);
+    // }
+    // if (inspectionDateHigh && inspectionDateHigh.length) {
+    //     keys.push({ name: 'Sample.inspectionDate', high: 1 });
+    //     values.push(pathologicNumber);
+    // }
+    // if (sampleNumber && sampleNumber.length) {
+    //     keys.push({ name: 'Sample.sampleNumber', exact: 1});
+    //     values.push(sampleNumber);
+    // }
+    var sql = helper.constructSelectSQL(columns, 'Patient LEFT JOIN Sample ON Patient.id = Sample.patientId LEFT JOIN File ON Sample.sampleNumber = File.sampleNumber', keys);
+    var limit = req.query.limit || 20;
+    var page = req.query.page || 1;
+    var orderBy = req.query.orderBy || 'name';
+    var totalPage = parseInt(req.query.totalPage) || -1;
+    async.parallel({
+        patients: function (callback) {
+            connection.myQuery(sql + ' ORDER BY ? LIMIT ?, ?', values.concat([orderBy, (page - 1) * limit, page * limit]))
+                .then(function (rows) {
+                    patients = [];
+                    _.each(_.groupBy(rows, function (row) { return row.id; }), function (patient) {
+                        patients.push({
+                            id: patient[0].id,
+                            name: patient[0].name,
+                            age: helper.calAge(patient[0].dob),
+                            gender: patient[0].gender,
+                            hospitalNumber: patient[0].hospitalNumber,
+                            pathologicNumber: patient[0].pathologicNumber,
+                            clinicalDiagnosis: patient[0].clinicalDiagnosis,
+                            patientComment: patient[0].patientComment,
+                            samples: patient[0].sampleNumber ?
+                                _.map(patient, function (sample) {
+                                    return {
+                                        sampleNumber: sample.sampleNumber,
+                                        material: sample.material,
+                                        site: sample.site,
+                                        tumorCellContent: sample.tumorCellContent,
+                                        pathologicDiagnosis: sample.pathologicDiagnosis,
+                                        inspectionDate: sample.inspectionDate,
+                                        sampleComment: sample.sampleComment,
+                                        status: helper.getSampleStatus(sample.sampleStatus)
+                                    };
+                                }) :
+                                null
+                        });
+                    });
+                    callback(null, patients);
+                })
+                .fail(function (err) {
+                    callback(err, null);
+                });
+        },
+        totalPage: function (callback) {
+            if (totalPage != -1) {
+                callback(null, req.query.totalPage);
+            } else {
+                connection.myQuery('SELECT count(*) AS count FROM Patient')
+                    .then(function (result) {
+                        callback(null, Math.ceil(result[0].count / limit));
+                    })
+                    .fail(function (err) {
+                        callback(err, null);
+                    });
+            }
+        }
+    },
+        function (err, results) {
+            if (err) {
+                log.d('Error when searching patient: ' + err.message);
+                return res.status(500).json({ success: false, error: err.code, message: err.message || 'Unknown' });
+            } else {
+                return res.json(results);
+            }
+        });
+};
+
+// exports.list = function (req, res) {
+//     // list the existing patients, deprecated
+//     var limit = req.query.limit || 20;
+//     var page = req.query.page || 1;
+//     var orderBy = req.query.orderBy || 'name';
+//     var totalPage = parseInt(req.query.totalPage) || -1;
+//     var columns = ['Patient.name', 'gender', 'dob', 'hospitalNumber', 'pathologicNumber', 'clinicalDiagnosis', 'Patient.comment AS patientComment', 'sampleNumber', 'material', 'site', 'tumorCellContent',
+//         'pathologicDiagnosis', 'inspectionDate', 'Sample.comment AS sampleComment', 'Sample.status AS sampleStatus'];
+//     async.parallel({
+//         patients: function (callback) {
+//             connection.myQuery(helper.constructSelectSQL(columns, 'Patient LEFT JOIN Sample ON Patient.id = Sample.patientId', []) + ' ORDER BY ? LIMIT ?, ?',
+//                 [orderBy, (page - 1) * limit, page * limit])
+//                 .then(function (rows) {
+//                     patients = [];
+//                     _.each(rows, function (patient) {
+//                         patients.push({
+//                             id: patient.id,
+//                             name: patient.name,
+//                             dob: patient.dob,
+//                             gender: patient.gender,
+//                             hospitalNumber: patient.hospitalNumber,
+//                             pathologicNumber: patient.pathologicNumber,
+//                             clinicalDiagnosis: patient.clinicalDiagnosis,
+//                             patientComment: patient.patientComment,
+//                             sampleNumber: patient.sampleNumber,
+//                             material: patient.material,
+//                             site: patient.site,
+//                             tumorCellContent: patient.tumorCellContent,
+//                             pathologicDiagnosis: patient.pathologicDiagnosis,
+//                             inspectionDate: patient.inspectionDate,
+//                             sampleComment: patient.sampleComment,
+//                             status: patient.sampleStatus
+//                         });
+//                     });
+//                     callback(null, patients);
+//                 })
+//                 .fail(function (err) {
+//                     callback(err, null);
+//                 });
+//         },
+//         totalPage: function (callback) {
+//             if (totalPage != -1) {
+//                 callback(null, req.query.totalPage);
+//             } else {
+//                 connection.myQuery('SELECT count(*) AS count FROM Patient')
+//                     .then(function (result) {
+//                         callback(null, Math.ceil(result[0].count / limit));
+//                     })
+//                     .fail(function (err) {
+//                         callback(err, null);
+//                     });
+//             }
+//         }
+//     },
+//         function (err, results) {
+//             if (err) {
+//                 log.d('Error when getting patient list');
+//                 return res.status(500).json({ success: false, error: err.code, message: err.message || 'Unknown' });
+//             } else {
+//                 return res.json(results);
+//             }
+//         });
+// };

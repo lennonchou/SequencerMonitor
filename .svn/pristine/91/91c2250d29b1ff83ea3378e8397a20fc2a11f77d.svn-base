@@ -1,0 +1,62 @@
+var _ = require('underscore')
+
+exports.constructSelectSQL = function (columns, table, fields) {
+    if (typeof columns !== 'undefined' && columns !== null && typeof table !== 'undefined' && table !== null) {
+        var sql = 'SELECT ' + columns.join(', ') + ' FROM ' + table + (fields && fields.length ? ' WHERE ' : '');
+        condition = _.map(fields, function(field) {
+            var compare = field.exact ? ' = ' : (field.low ? ' > ' : (field.high ? ' < ' : ' LIKE '));
+            return field.name + compare + '?';
+        });
+        var conditions = condition.join(' AND ')
+        return sql + conditions;
+    }   
+    return null;
+};
+
+exports.constructInsertSQL = function (columns, table) {
+    if (typeof columns !== 'undefined' && columns !== null && typeof table !== 'undefined' && table !== null) {
+        var sql = 'INSERT INTO ' + table + ' SET ';
+        var insert = _.map(columns, function(column) {
+            return column + ' = ?';
+        });
+        return sql + insert.join(', ');
+    }
+    return null;
+};
+
+exports.constructUpdateSQL = function(columns, table, fields) {
+    if (typeof columns !== 'undefined' && columns !== null && typeof table !== 'undefined' && table !== null) {
+        var sql = 'UPDATE ' + table + ' SET ';
+        var update = _.map(columns, function(column) {
+            return column + ' = ?';
+        }).join(', ');
+        conditions = _.map(fields, function(field) {
+            var compare = field.exact ? ' = ' : (field.low ? ' > ' : (field.high ? ' < ' : ' LIKE '));
+            return field.name + compare + '?';
+        }).join(' AND ');
+        return sql + update + (fields && fields.length ? ' WHERE ' : '') + conditions;
+    }
+    return null;
+}
+
+exports.validationCheck = function (values) {
+    return _.every(values, function(value) {
+        if (typeof value === 'string') {
+            return (typeof value !== 'undefined' && value !== null && value.length > 0);
+        }
+        return (typeof value !== 'undefined' && value !== null);
+    });
+};
+
+exports.calAge = function (dob) {
+    if (typeof dob === 'undefined' || dob === null) {
+        return null;
+    }
+    var dob = new Date(dob);
+    var today = new Date();
+    var age = today.getFullYear() - dob.getFullYear();
+    if (today.getMonth() - dob.getMonth() < 0 || (today.getMonth() - dob.getMonth() == 0 && today.getDate() - dob.getDate() < 0)) {
+        age--;
+    }
+    return age;
+};

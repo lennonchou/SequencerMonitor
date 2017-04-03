@@ -1,0 +1,16 @@
+var connection = require('../mysqlConnection.js')
+var _ = require('underscore')
+var log = require('../log.js')
+var helper = require('../helper.js')
+var async = require('async')
+var diskspace = require('diskspace')
+
+exports.getStatus = function(req, res) {
+    diskspace.check('/', function (err, total, free, status) {
+        if (err) {
+            log.d('Error when getting system info');
+            return res.status(500).json({success: false, code: err.code, message: err.message || 'unknown disk error' });
+        }
+        return res.json({success: true, total: total, free: free, status: status});
+    });
+};

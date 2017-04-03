@@ -1,0 +1,53 @@
+var connnection = require('../mysqlConnection.js')
+var jwt = require('jsonwebtoken')
+var log = require('../log.js')
+var md5 = require('md5')
+var settings = require('../settings.js')
+const util = require('util')
+var helper = require('../helper.js')
+var async = require('async')
+
+exports.signIn = function (req, res) {
+    log.d(util.format('sign in with username: %s', req.body.username));
+    var username = req.body.username;
+    var pwd = req.body.password;
+    if (!helper.validationCheck(username, pws)) {
+        res.status(400).json({success: false, error: 'Incorrect username or password'});
+    }
+    connection.myQuery('SELECT id FROM User WHERE username = ? AND password = ?', [username, md5(pwd)])
+        .then(function (rows) {
+            if (rows && rows.length) {
+                var token = jwt.sign({
+                    user: {
+                        userId: rows[0].id
+                    }
+                }, settings.secretKey);
+                res.json({success: true, token: token});
+            }
+            log.d(util.format('incorrect username or password with username: %s', username));
+            res.status(401).json({ success: false, error: 'incorrect username or password' });
+        }).fail(function (err) {
+            log.d('Error when signing in');
+            res.status(500).json({success: false, error: err.code, message: err.message || 'Unknown'});
+        });
+};
+
+exports.signUp = function (req, res) {
+    var username = req.body.username;
+    var pwd = req.body.password;
+    if (!helper.validationCheck(username, pws)) {
+        res.status(400).json({success: false, error: 'Please provide both username and password'});
+    }
+    connection.myQuery('INSERT INTO User SET username = ?, password = ?, createTime = ??', [username, md5(pwd), 'now()'])
+    .then(function(result) {
+        res.json({success: true});
+    }).fail(function(err) {
+        log.d('Error in signing up')
+        res.status(500).json({success: false, error: err.code, message: err.message || 'Unknown'});
+    });
+};
+
+exports.resetPwd = function (req, res) {
+    res.status(300);
+};
+

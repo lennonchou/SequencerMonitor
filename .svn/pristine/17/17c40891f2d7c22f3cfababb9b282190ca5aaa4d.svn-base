@@ -1,0 +1,19 @@
+var _ = require('underscore')
+
+exports.constructSQL = function(table, fields) {
+    if (typeof table !== 'undefined' && table !== null && typeof fields !== 'undefined' && table !== null) {
+        var sql = 'SELECT FROM ' + table + ' WHERE ';
+        condition = _.map(fields, function(field) {
+            return field.name + (field.exact ? ' = ' : ' LIKE ') + '?';
+        })
+        var conditions = condition.join(' AND ')
+        return sql + conditions;
+    }   
+    return null;
+};
+
+exports.validationCheck = function(values) {
+    return _.every(values, function(value) {
+        return (typeof value !== 'undefined' && value !== null && value.length);
+    });
+};
