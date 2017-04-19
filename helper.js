@@ -127,12 +127,18 @@ exports.backToISO = function (localDateString) {
     return newISODate;
 };
 
-exports.getISOFromClient = function(clientDateString, offset) {
+exports.getISOFromClientDOB = function(clientDateString, offset) {
     var date = new Date(clientDateString);
     var serverOffset = date.getTimezoneOffset();
     var minutes = date.getMinutes();
     date.setMinutes(minutes - serverOffset + offset);
     return date;
+};
+
+exports.getISOFromClientAge = function(clientAge, offset) {
+    var today = new Date();
+    var dob = new Date(today.setFullYear(today.getFullYear() - clientAge));
+    return exports.getISOFromClientDOB(dob, offset);
 };
 
 exports.genderTranslate = function(gender) {

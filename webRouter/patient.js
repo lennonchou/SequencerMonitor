@@ -36,10 +36,11 @@ var async = require('async');
 // };
 
 exports.create = function (req, res) {
-    // create patient info
+    // create patient info and sample info
     var body = req.body;
     var name = body.name;
     var dob = body.dob;
+    var estimated = body.estimated;
     var gender = body.gender;
     var hospitalNumber = body.hospitalNumber;
     var pathologicNumber = body.pathologicNumber;
@@ -51,9 +52,10 @@ exports.create = function (req, res) {
     var tumorCellContent = body.tumorCellContent;
     var pathologicDiagnosis = body.pathologicDiagnosis;
     var inspectionDate = body.inspectionDate;
+    var orderingPhysician = body.orderingPhysician;
     var sampleComment = body.sampelComment;
     // validation check
-    if (!helper.validationCheck([name, hospitalNumber, pathologicNumber, sampleNumber, inspectionDate])) {
+    if (!helper.validationCheck([name, hospitalNumber, pathologicNumber, sampleNumber, inspectionDate, dob])) {
         return res.status(400).json({ success: false, error: '请输入所有必填项', message: 'Missing key parameters' });
     } else {
         var selectPatientColumns = _.map(['name', 'hospitalNumber', 'pathologicNumber'], function (item) {
@@ -62,13 +64,13 @@ exports.create = function (req, res) {
         var selectPatientSQL = helper.constructSelectSQL(['id'], 'Patient', selectPatientColumns);
         var selectPatientParams = [name, hospitalNumber, pathologicNumber];
 
-        var insertPatientColumns = ['name', 'dob', 'gender', 'hospitalNumber', 'pathologicNumber', 'clinicalDiagnosis', 'comment', 'createTime'];
+        var insertPatientColumns = ['name', 'dob', 'estimated', 'gender', 'hospitalNumber', 'pathologicNumber', 'clinicalDiagnosis', 'comment', 'createTime'];
         var insertPatientSQL = helper.constructInsertSQL(insertPatientColumns, 'Patient');
-        var insertPatientParams = [name, dob, gender, hospitalNumber, pathologicNumber, clinicalDiagnosis, patientComment];
+        var insertPatientParams = [name, dob, estimated, gender, hospitalNumber, pathologicNumber, clinicalDiagnosis, patientComment];
 
-        var insertSampleColumns = ['patientId', 'sampleNumber', 'material', 'site', 'tumorCellContent', 'pathologicDiagnosis', 'inspectionDate', 'comment', 'createTime']
+        var insertSampleColumns = ['patientId', 'sampleNumber', 'material', 'site', 'tumorCellContent', 'pathologicDiagnosis', 'inspectionDate', 'orderingPhysician', 'comment', 'createTime']
         var insertSampleSQL = helper.constructInsertSQL(insertSampleColumns, 'Sample');
-        var insertSampleParams = [sampleNumber, material, site, tumorCellContent, pathologicDiagnosis, inspectionDate, sampleComment];
+        var insertSampleParams = [sampleNumber, material, site, tumorCellContent, pathologicDiagnosis, inspectionDate, orderingPhysician, sampleComment];
         connection.myTransactionQuery(selectPatientSQL, selectPatientParams, insertPatientSQL, insertPatientParams, insertSampleSQL, insertSampleParams)
             .then(function (row) {
                 return res.json({ success: true });
@@ -88,17 +90,18 @@ exports.edit = function (req, res) {
     var body = req.body;
     var name = body.name;
     var dob = body.dob;
+    var estimated = body.estimated;
     var gender = body.gender;
     var hospitalNumber = body.hospitalNumber;
     var pathologicNumber = body.pathologicNumber;
     var clinicalDiagnosis = body.clinicalDiagnosis;
     var comment = body.comment;
     var id = body.id;
-    if (!helper.validationCheck([name, hospitalNumber, pathologicNumber, id])) {
+    if (!helper.validationCheck([name, hospitalNumber, pathologicNumber, id, dob])) {
         return res.status(400).json({ success: false, error: 'Missing key parameters' });
     } else {
-        connection.myQuery(helper.constructUpdateSQL(['name', 'dob', 'gender', 'hospitalNumber', 'pathologicNumber', 'clinicalDiagnosis', 'comment'], 'Patient', [{ name: 'id', exact: 1 }]),
-            [name, dob, gender, hospitalNumber, pathologicNumber, clinicalDiagnosis, comment, id])
+        connection.myQuery(helper.constructUpdateSQL(['name', 'dob', 'estimated', 'gender', 'hospitalNumber', 'pathologicNumber', 'clinicalDiagnosis', 'comment'], 'Patient', [{ name: 'id', exact: 1 }]),
+            [name, dob, estimated, gender, hospitalNumber, pathologicNumber, clinicalDiagnosis, comment, id])
             .then(function (result) {
                 return res.json({ success: true });
             })
@@ -140,8 +143,8 @@ exports.search = function (req, res) {
     // search based on name, gender, hospitalNumber, pathologicNumber
     var keys = [];
     var values = [];
-    var columns = ['Patient.id', 'Patient.name', 'gender', 'dob', 'hospitalNumber', 'pathologicNumber', 'clinicalDiagnosis', 'Patient.comment AS patientComment',
-        'Sample.id AS sampleId', 'Sample.sampleNumber', 'material', 'site', 'tumorCellContent',
+    var columns = ['Patient.id', 'Patient.name', 'gender', 'dob', 'estimated', 'hospitalNumber', 'pathologicNumber', 'clinicalDiagnosis', 'Patient.comment AS patientComment',
+        'Sample.id AS sampleId', 'Sample.sampleNumber', 'material', 'site', 'tumorCellContent', 'orderingPhysician', 
         'pathologicDiagnosis', 'inspectionDate', 'Sample.comment AS sampleComment', 'File.status AS sampleStatus', 'File.url'];
     var name = req.query.name;
     var gender = req.query.gender;
@@ -223,6 +226,7 @@ exports.search = function (req, res) {
                             name: sample.name,
                             age: helper.calAge(sample.dob),
                             dob: helper.backToISO(sample.dob),
+                            estimated: sample.estimated,
                             gender: sample.gender,
                             hospitalNumber: sample.hospitalNumber,
                             pathologicNumber: sample.pathologicNumber,
@@ -234,6 +238,7 @@ exports.search = function (req, res) {
                             site: sample.site,
                             tumorCellContent: sample.tumorCellContent,
                             pathologicDiagnosis: sample.pathologicDiagnosis,
+                            orderingPhysician: sample.orderingPhysician,
                             inspectionDate: helper.backToISO(sample.inspectionDate),
                             sampleComment: sample.sampleComment,
                             status: helper.getSampleStatus(sample.sampleStatus),
@@ -272,8 +277,8 @@ exports.search = function (req, res) {
 };
 
 exports.retrieve = function (req, res) {
-    var columns = ['Patient.id', 'Patient.name', 'gender', 'dob', 'hospitalNumber', 'pathologicNumber', 'clinicalDiagnosis', 'Patient.comment AS patientComment',
-        'Sample.id AS sampleId', 'Sample.sampleNumber', 'material', 'site', 'tumorCellContent',
+    var columns = ['Patient.id', 'Patient.name', 'gender', 'dob', 'estimated', 'hospitalNumber', 'pathologicNumber', 'clinicalDiagnosis', 'Patient.comment AS patientComment',
+        'Sample.id AS sampleId', 'Sample.sampleNumber', 'material', 'site', 'tumorCellContent', 'orderingPhysician', 
         'pathologicDiagnosis', 'inspectionDate', 'Sample.comment AS sampleComment', 'File.status AS sampleStatus', 'File.url'];
     var id = req.query.id;
     connection.myQuery(helper.constructSelectSQL(columns, 'Patient LEFT JOIN Sample ON Patient.id = Sample.patientId LEFT JOIN File ON Sample.sampleNumber = File.sampleNumber',
@@ -284,6 +289,7 @@ exports.retrieve = function (req, res) {
                 name: rows[0].name,
                 age: helper.calAge(rows[0].dob),
                 dob: helper.backToISO(dob),
+                estimated: rows[0].estimated,
                 gender: rows[0].gender,
                 hospitalNumber: rows[0].hospitalNumber,
                 pathologicNumber: rows[0].pathologicNumber,
@@ -298,6 +304,7 @@ exports.retrieve = function (req, res) {
                             site: sample.site,
                             tumorCellContent: sample.tumorCellContent,
                             pathologicDiagnosis: sample.pathologicDiagnosis,
+                            orderingPhysician: sample.orderingPhysician,
                             inspectionDate: helper.backToISO(sample.inspectionDate),
                             sampleComment: sample.sampleComment,
                             status: helper.getSampleStatus(sample.sampleStatus),

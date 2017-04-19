@@ -28,5 +28,5 @@ exports.secretKey = 'telo-(p6!m3w&#ol!q)0izkz!1xi43f#9bc1@1xy%8j0r60w8s';
 // };
 exports.qTimeout = 30000;
 // TODO: turn on auth when deployed
-exports.authON = false;
+exports.authON = true;
 //exports.authTestWxOpenId = 'oUHETwOqRZQ4Q9T5OG6j-4vWhkBM';

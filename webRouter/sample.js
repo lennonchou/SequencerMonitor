@@ -18,6 +18,7 @@ exports.create = function (req, res) {
     var site = body.site;
     var tumorCellContent = body.tumorCellContent;
     var pathologicDiagnosis = body.pathologicDiagnosis;
+    var orderingPhysician = body.orderingPhysician;
     var inspectionDate = body.inspectionDate;
     var comment = body.comment;
     // need to change later
@@ -31,9 +32,9 @@ exports.create = function (req, res) {
                 if (!file.length && !confirmed) {
                     return res.json({ success: false, error: '找不到对应的bam文件，请确认这是正确的样本号', message: 'Cannot find matching file, please verify' });
                 }
-                var columns = ['patientId', 'sampleNumber', 'material', 'site', 'tumorCellContent', 'pathologicDiagnosis', 'inspectionDate', 'comment', 'createTime'];
+                var columns = ['patientId', 'sampleNumber', 'material', 'site', 'tumorCellContent', 'pathologicDiagnosis', 'inspectionDate', 'orderingPhysician', 'comment', 'createTime'];
                 return connection.myQuery(helper.constructInsertSQL(columns, 'Sample'),
-                    [patientId, sampleNumber, material, site, tumorCellContent, pathologicDiagnosis, inspectionDate, comment]);
+                    [patientId, sampleNumber, material, site, tumorCellContent, pathologicDiagnosis, inspectionDate, orderingPhysician, comment]);
             })
             .then(function (result) {
                 var id = result.insertId;
@@ -105,17 +106,17 @@ exports.batchCreate = function (req, res) {
                         var selectPatientSQL = helper.constructSelectSQL(['id'], 'Patient', selectPatientColumns);
                         var selectPatientParams = [result.name, result.hospitalNumber, result.pathologicNumber];
 
-                        var insertPatientColumns = ['name', 'dob', 'gender', 'hospitalNumber', 'pathologicNumber', 'clinicalDiagnosis', 'comment', 'createTime'];
+                        var insertPatientColumns = ['name', 'dob', 'estimated', 'gender', 'hospitalNumber', 'pathologicNumber', 'clinicalDiagnosis', 'comment', 'createTime'];
                         var insertPatientSQL = helper.constructInsertSQL(insertPatientColumns, 'Patient');
-                        var insertPatientParams = [result.name, result.dob, result.gender, result.hospitalNumber, result.pathologicNumber,
+                        var insertPatientParams = [result.name, result.dob, result.estimated, result.gender, result.hospitalNumber, result.pathologicNumber,
                         result.clinicalDiagnosis, result.patientComment];
 
-                        var insertSampleColumns = ['patientId', 'sampleNumber', 'material', 'site', 'tumorCellContent', 'pathologicDiagnosis', 'inspectionDate', 'comment', 'createTime']
+                        var insertSampleColumns = ['patientId', 'sampleNumber', 'material', 'site', 'tumorCellContent', 'pathologicDiagnosis', 'inspectionDate', 'orderingPhysician', 'comment', 'createTime']
                         var insertSampleSQL = helper.constructInsertSQL(insertSampleColumns, 'Sample');
                         var insertSampleParams = [result.sampleNumber, result.material, result.site, result.tumorCellContent,
-                        result.pathologicDiagnosis, result.inspectionDate, result.sampleComment];
+                        result.pathologicDiagnosis, result.inspectionDate, result.orderingPhysician, result.sampleComment];
 
-                        if (!helper.validationCheck([result.name, result.hospitalNumber, result.pathologicNumber, result.sampleNumber, result.inspectionDate])) {
+                        if (!helper.validationCheck([result.name, result.hospitalNumber, result.pathologicNumber, result.dob, result.sampleNumber, result.inspectionDate])) {
                             console.log('missing something');
                             callback(null, '缺少必要项，不能插入' + (result.index + 1) + '号样本');
                         }
@@ -162,7 +163,9 @@ function _processBatchJSON(results, offset) {
             return {
                 index: index,
                 name: result['*姓名'],
-                dob: result['生日'].length ? helper.getISOFromClient(result['生日'], offset).toISOString() : null,
+                // if the dob exists, take the dob as dob. Otherwise, use the age to calculate the dob
+                dob: result['生日'].length ? helper.getISOFromClientDOB(result['生日'], offset).toISOString() : helper.getISOFromClientAge(result['年龄'], offset).toISOString(),
+                estimated: !result['生日'].length,
                 gender: result['性别'],
                 hospitalNumber: result['*住院号'],
                 pathologicNumber: result['*病理号'],
@@ -173,6 +176,7 @@ function _processBatchJSON(results, offset) {
                 site: result['取材部位'],
                 tumorCellContent: result['肿瘤细胞含量%'],
                 pathologicDiagnosis: result['病理诊断'],
+                orderingPhysician: result['送检医师'],
                 inspectionDate: result['*送检日期'].length ? helper.getISOFromClient(result['*送检日期'], offset).toISOString() : null,
                 sampleComment: result['样本备注']
             }
@@ -227,14 +231,15 @@ exports.edit = function (req, res) {
     var site = body.site;
     var tumorCellContent = body.tumorCellContent;
     var pathologicDiagnosis = body.pathologicDiagnosis;
+    var orderingPhysician = body.orderingPhysician;
     // var inspectionDate = body.inspectionDate;
     var comment = body.comment;
     var id = body.id;
     if (!helper.validationCheck([id])) {
         return res.status(400).json({ success: false, error: '请输入所有必填项', message: 'Missing key parameters' });
     } else {
-        connection.myQuery(helper.constructUpdateSQL(['material', 'site', 'tumorCellContent', 'pathologicDiagnosis', 'comment'], 'Sample', [{ name: 'id', exact: 1 }]),
-            [material, site, tumorCellContent, pathologicDiagnosis, comment, id])
+        connection.myQuery(helper.constructUpdateSQL(['material', 'site', 'tumorCellContent', 'pathologicDiagnosis', 'orderingPhysician', 'comment'], 'Sample', [{ name: 'id', exact: 1 }]),
+            [material, site, tumorCellContent, pathologicDiagnosis, orderingPhysician, comment, id])
             .then(function (result) {
                 return res.json({ success: true, sampleId: id });
             })
@@ -272,8 +277,8 @@ exports.search = function (req, res) {
     // search based on name, gender, hospitalNumber, pathologicNumber
     var keys = [];
     var values = [];
-    var columns = ['Patient.id', 'Patient.name', 'gender', 'dob', 'hospitalNumber', 'pathologicNumber', 'clinicalDiagnosis', 'Patient.comment AS patientComment',
-        'Sample.id AS sampleId', 'Sample.sampleNumber', 'material', 'site', 'tumorCellContent',
+    var columns = ['Patient.id', 'Patient.name', 'gender', 'dob', 'estimated', 'hospitalNumber', 'pathologicNumber', 'clinicalDiagnosis', 'Patient.comment AS patientComment',
+        'Sample.id AS sampleId', 'Sample.sampleNumber', 'material', 'site', 'tumorCellContent', 'orderingPhysician', 
         'pathologicDiagnosis', 'inspectionDate', 'Sample.comment AS sampleComment', 'File.status AS sampleStatus', 'File.url'];
     var name = req.query.name;
     var gender = req.query.gender;
@@ -326,6 +331,7 @@ exports.search = function (req, res) {
                             name: sample.name,
                             age: helper.calAge(sample.dob),
                             dob: helper.backToISO(sample.dob),
+                            estimated: sample.estimated,
                             gender: sample.gender,
                             hospitalNumber: sample.hospitalNumber,
                             pathologicNumber: sample.pathologicNumber,
@@ -337,6 +343,7 @@ exports.search = function (req, res) {
                             site: sample.site,
                             tumorCellContent: sample.tumorCellContent,
                             pathologicDiagnosis: sample.pathologicDiagnosis,
+                            orderingPhysician: sample.orderingPhysician,
                             inspectionDate: helper.backToISO(sample.inspectionDate),
                             sampleComment: sample.sampleComment,
                             status: helper.getSampleStatus(sample.sampleStatus),
@@ -375,8 +382,8 @@ exports.search = function (req, res) {
 };
 
 exports.retrieve = function (req, res) {
-    var columns = ['Patient.id', 'Patient.name', 'gender', 'dob', 'hospitalNumber', 'pathologicNumber', 'clinicalDiagnosis', 'Patient.comment AS patientComment',
-        'Sample.id AS sampleId', 'Sample.sampleNumber', 'material', 'site', 'tumorCellContent',
+    var columns = ['Patient.id', 'Patient.name', 'gender', 'dob', 'estimated', 'hospitalNumber', 'pathologicNumber', 'clinicalDiagnosis', 'Patient.comment AS patientComment',
+        'Sample.id AS sampleId', 'Sample.sampleNumber', 'material', 'site', 'tumorCellContent', 'orderingPhysician', 
         'pathologicDiagnosis', 'inspectionDate', 'Sample.comment AS sampleComment', 'File.status AS sampleStatus', 'File.url'];
     var id = req.query.id;
     connection.myQuery(helper.constructSelectSQL(columns, 'Patient JOIN Sample ON Patient.id = Sample.patientId LEFT JOIN File ON Sample.sampleNumber = File.sampleNumber',
@@ -387,6 +394,7 @@ exports.retrieve = function (req, res) {
                 name: rows[0].name,
                 age: helper.calAge(rows[0].dob),
                 dob: helper.backToISO(rows[0].dob),
+                estimated: row[0].estimated,
                 gender: rows[0].gender,
                 hospitalNumber: rows[0].hospitalNumber,
                 pathologicNumber: rows[0].pathologicNumber,
@@ -398,6 +406,7 @@ exports.retrieve = function (req, res) {
                 site: rows[0].site,
                 tumorCellContent: rows[0].tumorCellContent,
                 pathologicDiagnosis: rows[0].pathologicDiagnosis,
+                orderingPhysician: row[0].orderingPhysician,
                 inspectionDate: helper.backToISO(rows[0].inspectionDate),
                 sampleComment: rows[0].sampleComment,
                 status: helper.getSampleStatus(rows[0].sampleStatus),
@@ -433,7 +442,6 @@ exports.getWaitingToProcess = function (req, res) {
                             name: sample.name,
                             gender: sample.gender,
                             age: helper.calAge(sample.dob),
-                            gender: sample.gender,
                             hospitalNumber: sample.hospitalNumber,
                             pathologicNumber: sample.pathologicNumber,
                             clinicalDiagnosis: sample.clinicalDiagnosis,
@@ -504,7 +512,6 @@ exports.getWaitingToConfirm = function (req, res) {
                             name: sample.name,
                             gender: sample.gender,
                             age: helper.calAge(sample.dob),
-                            gender: sample.gender,
                             hospitalNumber: sample.hospitalNumber,
                             pathologicNumber: sample.pathologicNumber,
                             clinicalDiagnosis: sample.clinicalDiagnosis,
