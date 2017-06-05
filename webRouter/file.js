@@ -19,7 +19,7 @@ exports.getUnlinkedFiles = function (req, res) {
                             id: file.id,
                             status: helper.getSampleStatus(file.status),
                             sampleNumber: file.sampleNumber,
-                            bamFileName: _.last(file.bamFileLocation.split('/'))
+                            bamFileName: file.bamFileLocation ? _.last(file.bamFileLocation.split('/')) : null
                         };
                     });
                     callback(null, files);

@@ -6,7 +6,7 @@ var log = require('../log.js');
 var _ = require('underscore');
 var multer = require('multer');
 var xls2json = require('xls-to-json-lc');
-var xlsx2json = require('xlsx-to-json-lc');
+var xlsx2json = require('xlsx-to-json');
 var Q = require('q');
 
 exports.create = function (req, res) {
@@ -525,7 +525,7 @@ exports.getWaitingToConfirm = function (req, res) {
                             inspectionDate: helper.backToISO(sample.inspectionDate),
                             sampleComment: sample.sampleComment,
                             // should be '确认' instead of the original status
-                            status: operation || helper.getSampleStatus(sample.sampleStatus),
+                            status: helper.getSampleStatus(sample.sampleStatus),
                             url: sample.url
                         };
                     });
@@ -567,7 +567,7 @@ exports.confirm = function (req, res) {
     var waitingToConfirm = 2;
     var confirmed = 3;
     connection.myQuery(helper.constructUpdateSQL(['File.status'], 'Sample JOIN File ON Sample.sampleNumber = File.sampleNumber', 
-        [{ name: 'Sample.id', exact: 1 }, {name: 'File.status', exact: 1}]), [confirmed, id, getWaitingToConfirm])
+        [{ name: 'Sample.id', exact: 1 }, {name: 'File.status', exact: 1}]), [confirmed, id, waitingToConfirm])
         .then(function (result) {
             if (result.affectedRows) {
                 return res.json({ success: true, confirmedId: id });

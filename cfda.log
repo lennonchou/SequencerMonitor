@@ -1767,3 +1767,157 @@
 [2017-04-03 12:04:45.678] [DEBUG] CFDA - Query = SELECT Patient.id, Patient.name, gender, dob, hospitalNumber, pathologicNumber, clinicalDiagnosis, Patient.comment AS patientComment, Sample.id AS sampleId, Sample.sampleNumber, material, site, tumorCellContent, pathologicDiagnosis, inspectionDate, Sample.comment AS sampleComment, File.status AS sampleStatus, File.url FROM Patient LEFT JOIN Sample ON Patient.id = Sample.patientId LEFT JOIN File ON Sample.sampleNumber = File.sampleNumber ORDER BY name LIMIT 20, 20    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:21:9
 [2017-04-03 12:04:45.678] [DEBUG] CFDA - Connection success    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:19:9
 [2017-04-03 12:04:45.679] [DEBUG] CFDA - Query = SELECT COUNT(*) AS count FROM Patient LEFT JOIN Sample ON Patient.id = Sample.patientId LEFT JOIN File ON Sample.sampleNumber = File.sampleNumber    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:21:9
+[2017-04-14 15:10:38.030] [DEBUG] CFDA - Auth is off    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:58:7)
+[2017-04-14 15:10:38.064] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-04-14 15:25:09.872] [DEBUG] CFDA - Auth is off    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:58:7)
+[2017-04-14 15:25:09.946] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-04-14 15:56:39.495] [DEBUG] CFDA - Auth is on    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:20:7)
+[2017-04-14 15:56:39.535] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-04-14 15:57:46.037] [DEBUG] CFDA - Cannot parse the revision xml    at /Users/zack/Documents/svn/SGI_CFDA_server/webRouter/system.js:74:25
+[2017-04-14 15:59:01.654] [DEBUG] CFDA - Auth is on    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:20:7)
+[2017-04-14 15:59:01.689] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-04-14 15:59:30.713] [DEBUG] CFDA - Auth is on    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:20:7)
+[2017-04-14 15:59:30.751] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-04-14 15:59:33.562] [DEBUG] CFDA - Cannot parse the revision xml    at /Users/zack/Documents/svn/SGI_CFDA_server/webRouter/system.js:74:25
+[2017-04-14 17:15:24.110] [DEBUG] CFDA - Auth is on    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:20:7)
+[2017-04-14 17:15:24.150] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-04-14 17:15:29.025] [DEBUG] CFDA - Cannot parse the revision xml    at /Users/zack/Documents/svn/SGI_CFDA_server/webRouter/system.js:74:25
+[2017-04-14 17:20:15.701] [DEBUG] CFDA - Auth is on    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:20:7)
+[2017-04-14 17:20:15.749] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-04-14 17:20:17.737] [DEBUG] CFDA - Cannot parse the revision xml    at /Users/zack/Documents/svn/SGI_CFDA_server/webRouter/system.js:74:25
+[2017-04-14 17:27:59.399] [DEBUG] CFDA - Auth is on    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:20:7)
+[2017-04-14 17:27:59.434] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-04-14 17:29:42.561] [DEBUG] CFDA - Auth is on    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:20:7)
+[2017-04-14 17:29:42.595] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-04-14 17:30:29.172] [DEBUG] CFDA - Auth is on    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:20:7)
+[2017-04-14 17:30:29.210] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-04-14 17:35:51.507] [DEBUG] CFDA - Auth is on    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:20:7)
+[2017-04-14 17:35:51.547] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-04-14 17:35:56.106] [DEBUG] CFDA - Cannot parse xml    at /Users/zack/Documents/svn/SGI_CFDA_server/webRouter/system.js:85:21
+[2017-04-14 17:36:30.475] [DEBUG] CFDA - Auth is on    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:20:7)
+[2017-04-14 17:36:30.517] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-04-14 17:36:33.962] [DEBUG] CFDA - Cannot parse xml    at /Users/zack/Documents/svn/SGI_CFDA_server/webRouter/system.js:85:21
+[2017-04-17 12:00:38.793] [DEBUG] CFDA - Auth is on    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:20:7)
+[2017-04-17 12:00:38.834] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-04-17 12:01:05.835] [DEBUG] CFDA - Cannot parse xml    at /Users/zack/Documents/svn/SGI_CFDA_server/webRouter/system.js:85:21
+[2017-04-17 12:01:23.148] [DEBUG] CFDA - Auth is on    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:20:7)
+[2017-04-17 12:01:23.188] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-04-17 12:02:04.729] [DEBUG] CFDA - Auth is on    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:20:7)
+[2017-04-17 12:02:04.770] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-04-17 12:03:07.061] [DEBUG] CFDA - Auth is on    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:20:7)
+[2017-04-17 12:03:07.081] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-04-17 12:03:40.189] [DEBUG] CFDA - Auth is on    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:20:7)
+[2017-04-17 12:03:40.212] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-04-19 10:05:24.849] [DEBUG] CFDA - Auth is on    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:20:7)
+[2017-04-19 10:05:24.891] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-04-19 10:05:52.905] [DEBUG] CFDA - Has no token    at /Users/zack/Documents/svn/SGI_CFDA_server/urls.js:47:11
+[2017-04-19 10:06:40.312] [DEBUG] CFDA - Has token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6NywibGV2ZWwiOjAsInVzZXJuYW1lIjoiYWRtaW4ifSwiaWF0IjoxNDkyNjIxMzg0fQ.2lYFw4JlIXbxadoc1kMHYNH-GP6pz6Z0zqkhMa268oU    at /Users/zack/Documents/svn/SGI_CFDA_server/urls.js:27:11
+[2017-04-19 10:06:40.315] [DEBUG] CFDA - PAYLOAD: {"user":{"userId":7,"level":0,"username":"admin"},"iat":1492621384}    at /Users/zack/Documents/svn/SGI_CFDA_server/urls.js:40:15
+[2017-04-19 10:06:40.332] [DEBUG] CFDA - Connection success    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:19:9
+[2017-04-19 10:06:40.333] [DEBUG] CFDA - Query = SELECT Patient.id, Patient.name, gender, dob, estimated, hospitalNumber, pathologicNumber, clinicalDiagnosis, Patient.comment AS patientComment, Sample.id AS sampleId, Sample.sampleNumber, material, site, tumorCellContent, orderingPhysician, pathologicDiagnosis, inspectionDate, Sample.comment AS sampleComment, File.status AS sampleStatus, File.url FROM Patient LEFT JOIN Sample ON Patient.id = Sample.patientId LEFT JOIN File ON Sample.sampleNumber = File.sampleNumber WHERE Patient.name LIKE '%fsdfa%' ORDER BY name LIMIT 0, 20    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:21:9
+[2017-04-19 10:06:40.335] [DEBUG] CFDA - Connection success    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:19:9
+[2017-04-19 10:06:40.336] [DEBUG] CFDA - Query = SELECT COUNT(*) AS count FROM Patient LEFT JOIN Sample ON Patient.id = Sample.patientId LEFT JOIN File ON Sample.sampleNumber = File.sampleNumber WHERE Patient.name LIKE '%fsdfa%'    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:21:9
+[2017-04-19 10:07:09.722] [DEBUG] CFDA - Auth is on    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:20:7)
+[2017-04-19 10:07:09.758] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-04-19 10:07:27.157] [DEBUG] CFDA - Has token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6NywibGV2ZWwiOjAsInVzZXJuYW1lIjoiYWRtaW4ifSwiaWF0IjoxNDkyNjIxMzg0fQ.2lYFw4JlIXbxadoc1kMHYNH-GP6pz6Z0zqkhMa268oU    at /Users/zack/Documents/svn/SGI_CFDA_server/urls.js:27:11
+[2017-04-19 10:07:27.159] [DEBUG] CFDA - PAYLOAD: {"user":{"userId":7,"level":0,"username":"admin"},"iat":1492621384}    at /Users/zack/Documents/svn/SGI_CFDA_server/urls.js:40:15
+[2017-04-19 10:07:27.176] [DEBUG] CFDA - Connection success    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:19:9
+[2017-04-19 10:07:27.177] [DEBUG] CFDA - Query = SELECT Patient.id, Patient.name, gender, dob, estimated, hospitalNumber, pathologicNumber, clinicalDiagnosis, Patient.comment AS patientComment, Sample.id AS sampleId, Sample.sampleNumber, material, site, tumorCellContent, orderingPhysician, pathologicDiagnosis, inspectionDate, Sample.comment AS sampleComment, File.status AS sampleStatus, File.url FROM Patient LEFT JOIN Sample ON Patient.id = Sample.patientId LEFT JOIN File ON Sample.sampleNumber = File.sampleNumber WHERE Patient.name LIKE '%fsdfa%' ORDER BY name LIMIT 0, 20    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:21:9
+[2017-04-19 10:07:27.180] [DEBUG] CFDA - Connection success    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:19:9
+[2017-04-19 10:07:27.180] [DEBUG] CFDA - Query = SELECT COUNT(*) AS count FROM Patient LEFT JOIN Sample ON Patient.id = Sample.patientId LEFT JOIN File ON Sample.sampleNumber = File.sampleNumber WHERE Patient.name LIKE '%fsdfa%'    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:21:9
+[2017-04-19 10:07:42.059] [DEBUG] CFDA - Auth is on    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:20:7)
+[2017-04-19 10:07:42.081] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-04-19 10:07:46.427] [DEBUG] CFDA - Auth is on    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:20:7)
+[2017-04-19 10:07:46.447] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-04-19 10:07:50.946] [DEBUG] CFDA - Has token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6NywibGV2ZWwiOjAsInVzZXJuYW1lIjoiYWRtaW4ifSwiaWF0IjoxNDkyNjIxMzg0fQ.2lYFw4JlIXbxadoc1kMHYNH-GP6pz6Z0zqkhMa268oU    at /Users/zack/Documents/svn/SGI_CFDA_server/urls.js:27:11
+[2017-04-19 10:07:50.948] [DEBUG] CFDA - PAYLOAD: {"user":{"userId":7,"level":0,"username":"admin"},"iat":1492621384}    at /Users/zack/Documents/svn/SGI_CFDA_server/urls.js:40:15
+[2017-04-19 10:07:50.964] [DEBUG] CFDA - Connection success    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:19:9
+[2017-04-19 10:07:50.965] [DEBUG] CFDA - Query = SELECT Patient.id, Patient.name, gender, dob, estimated, hospitalNumber, pathologicNumber, clinicalDiagnosis, Patient.comment AS patientComment, Sample.id AS sampleId, Sample.sampleNumber, material, site, tumorCellContent, orderingPhysician, pathologicDiagnosis, inspectionDate, Sample.comment AS sampleComment, File.status AS sampleStatus, File.url FROM Patient LEFT JOIN Sample ON Patient.id = Sample.patientId LEFT JOIN File ON Sample.sampleNumber = File.sampleNumber WHERE Patient.name LIKE '%fsdfa%' ORDER BY name LIMIT 0, 20    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:21:9
+[2017-04-19 10:07:50.967] [DEBUG] CFDA - Connection success    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:19:9
+[2017-04-19 10:07:50.967] [DEBUG] CFDA - Query = SELECT COUNT(*) AS count FROM Patient LEFT JOIN Sample ON Patient.id = Sample.patientId LEFT JOIN File ON Sample.sampleNumber = File.sampleNumber WHERE Patient.name LIKE '%fsdfa%'    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:21:9
+[2017-04-19 10:10:17.300] [DEBUG] CFDA - Auth is on    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:20:7)
+[2017-04-19 10:10:17.320] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-04-19 10:10:21.935] [DEBUG] CFDA - Has token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6NywibGV2ZWwiOjAsInVzZXJuYW1lIjoiYWRtaW4ifSwiaWF0IjoxNDkyNjIxMzg0fQ.2lYFw4JlIXbxadoc1kMHYNH-GP6pz6Z0zqkhMa268oU    at /Users/zack/Documents/svn/SGI_CFDA_server/urls.js:27:11
+[2017-04-19 10:10:21.938] [DEBUG] CFDA - PAYLOAD: {"user":{"userId":7,"level":0,"username":"admin"},"iat":1492621384}    at /Users/zack/Documents/svn/SGI_CFDA_server/urls.js:40:15
+[2017-04-19 10:10:21.964] [DEBUG] CFDA - Connection success    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:19:9
+[2017-04-19 10:10:21.965] [DEBUG] CFDA - Query = SELECT Patient.id, Patient.name, gender, dob, estimated, hospitalNumber, pathologicNumber, clinicalDiagnosis, Patient.comment AS patientComment, Sample.id AS sampleId, Sample.sampleNumber, material, site, tumorCellContent, orderingPhysician, pathologicDiagnosis, inspectionDate, Sample.comment AS sampleComment, File.status AS sampleStatus, File.url FROM Patient LEFT JOIN Sample ON Patient.id = Sample.patientId LEFT JOIN File ON Sample.sampleNumber = File.sampleNumber WHERE Patient.name LIKE '%fsdfa%' ORDER BY name LIMIT 0, 20    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:21:9
+[2017-04-19 10:10:21.967] [DEBUG] CFDA - Connection success    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:19:9
+[2017-04-19 10:10:21.967] [DEBUG] CFDA - Query = SELECT COUNT(*) AS count FROM Patient LEFT JOIN Sample ON Patient.id = Sample.patientId LEFT JOIN File ON Sample.sampleNumber = File.sampleNumber WHERE Patient.name LIKE '%fsdfa%'    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:21:9
+[2017-04-19 11:00:03.098] [DEBUG] CFDA - Auth is on    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:20:7)
+[2017-04-19 11:00:03.141] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-04-19 11:01:16.746] [DEBUG] CFDA - Auth is on    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:20:7)
+[2017-04-19 11:01:16.768] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-04-19 11:02:00.438] [DEBUG] CFDA - Auth is on    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:20:7)
+[2017-04-19 11:02:00.458] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-04-19 11:02:29.770] [DEBUG] CFDA - Auth is on    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:20:7)
+[2017-04-19 11:02:29.790] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-04-26 09:53:46.595] [DEBUG] CFDA - Auth is on    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:20:7)
+[2017-04-26 09:53:46.642] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-04-26 09:55:00.591] [DEBUG] CFDA - Has no token    at /Users/zack/Documents/svn/SGI_CFDA_server/urls.js:47:11
+[2017-04-26 09:55:26.114] [DEBUG] CFDA - Auth is off    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:58:7)
+[2017-04-26 09:55:26.153] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-04-26 09:55:31.961] [DEBUG] CFDA - Has no token, making fake payload    at /Users/zack/Documents/svn/SGI_CFDA_server/urls.js:85:11
+[2017-04-26 09:55:31.978] [DEBUG] CFDA - Connection success    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:19:9
+[2017-04-26 09:55:31.979] [DEBUG] CFDA - Query = SELECT COUNT(*) AS count FROM File LEFT JOIN Sample ON File.sampleNumber = Sample.sampleNumber WHERE Sample.sampleNumber IS NULL    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:21:9
+[2017-04-26 09:55:32.982] [DEBUG] CFDA - Connection success    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:19:9
+[2017-04-26 09:55:32.983] [DEBUG] CFDA - Query = SELECT File.id, File.status, File.sampleNumber, File.bamFileLocation FROM File LEFT JOIN Sample ON File.sampleNumber = Sample.sampleNumber WHERE Sample.sampleNumber IS NULL ORDER BY id LIMIT 0, 20    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:21:9
+[2017-04-26 10:03:16.415] [DEBUG] CFDA - Auth is off    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:58:7)
+[2017-04-26 10:03:16.452] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-04-26 10:03:34.920] [DEBUG] CFDA - Has no token, making fake payload    at /Users/zack/Documents/svn/SGI_CFDA_server/urls.js:85:11
+[2017-04-26 10:03:34.960] [DEBUG] CFDA - Connection success    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:19:9
+[2017-04-26 10:06:44.619] [DEBUG] CFDA - Auth is off    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:58:7)
+[2017-04-26 10:06:44.658] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-04-26 10:08:22.039] [DEBUG] CFDA - Has no token, making fake payload    at /Users/zack/Documents/svn/SGI_CFDA_server/urls.js:85:11
+[2017-04-26 10:08:22.064] [DEBUG] CFDA - Connection success    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:19:9
+[2017-04-26 10:08:22.065] [DEBUG] CFDA - Query = SELECT COUNT(*) AS count FROM File LEFT JOIN Sample ON File.sampleNumber = Sample.sampleNumber WHERE Sample.sampleNumber IS NULL    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:21:9
+[2017-04-26 10:08:23.066] [DEBUG] CFDA - Connection success    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:19:9
+[2017-04-26 10:08:23.067] [DEBUG] CFDA - Query = SELECT File.id, File.status, File.sampleNumber, File.bamFileLocation FROM File LEFT JOIN Sample ON File.sampleNumber = Sample.sampleNumber WHERE Sample.sampleNumber IS NULL ORDER BY id LIMIT 0, 20    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:21:9
+[2017-04-27 14:51:41.780] [DEBUG] CFDA - Auth is on    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:20:7)
+[2017-04-27 14:51:41.817] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-04-27 14:52:10.436] [DEBUG] CFDA - Has no token    at /Users/zack/Documents/svn/SGI_CFDA_server/urls.js:47:11
+[2017-04-27 14:52:31.146] [DEBUG] CFDA - Auth is off    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:58:7)
+[2017-04-27 14:52:31.183] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-04-27 14:52:38.278] [DEBUG] CFDA - Has no token, making fake payload    at /Users/zack/Documents/svn/SGI_CFDA_server/urls.js:85:11
+[2017-04-27 14:52:38.295] [DEBUG] CFDA - Connection success    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:19:9
+[2017-04-27 14:52:38.295] [DEBUG] CFDA - Query = SELECT Patient.id, Patient.name, gender, dob, estimated, hospitalNumber, pathologicNumber, clinicalDiagnosis, Patient.comment AS patientComment, Sample.id AS sampleId, Sample.sampleNumber, material, site, tumorCellContent, orderingPhysician, pathologicDiagnosis, inspectionDate, Sample.comment AS sampleComment, File.status AS sampleStatus, File.url FROM Patient LEFT JOIN Sample ON Patient.id = Sample.patientId LEFT JOIN File ON Sample.sampleNumber = File.sampleNumber ORDER BY name LIMIT 0, 20    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:21:9
+[2017-04-27 14:52:38.297] [DEBUG] CFDA - Connection success    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:19:9
+[2017-04-27 14:52:38.297] [DEBUG] CFDA - Query = SELECT COUNT(*) AS count FROM Patient LEFT JOIN Sample ON Patient.id = Sample.patientId LEFT JOIN File ON Sample.sampleNumber = File.sampleNumber    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:21:9
+[2017-04-27 15:00:10.143] [DEBUG] CFDA - Has token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6NywibGV2ZWwiOjAsInVzZXJuYW1lIjoiYWRtaW4ifSwiaWF0IjoxNDkzMjQzMjUzfQ.eDw8s9qgeZzUDGB4RNpjRBuZwT1sZFE2yjgfvBICghA    at /Users/zack/Documents/svn/SGI_CFDA_server/urls.js:65:11
+[2017-04-27 15:00:10.149] [DEBUG] CFDA - PAYLOAD: {"user":{"userId":7,"level":0,"username":"admin"},"iat":1493243253}    at /Users/zack/Documents/svn/SGI_CFDA_server/urls.js:78:15
+[2017-04-27 15:00:10.161] [DEBUG] CFDA - Connection success    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:19:9
+[2017-04-27 15:00:10.162] [DEBUG] CFDA - Query = SELECT Patient.id, Patient.name, gender, dob, estimated, hospitalNumber, pathologicNumber, clinicalDiagnosis, Patient.comment AS patientComment, Sample.id AS sampleId, Sample.sampleNumber, material, site, tumorCellContent, orderingPhysician, pathologicDiagnosis, inspectionDate, Sample.comment AS sampleComment, File.status AS sampleStatus, File.url FROM Patient JOIN Sample ON Patient.id = Sample.patientId LEFT JOIN File ON Sample.sampleNumber = File.sampleNumber WHERE Patient.name LIKE '%ab%' ORDER BY name LIMIT 0, 20    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:21:9
+[2017-04-27 15:00:10.164] [DEBUG] CFDA - Connection success    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:19:9
+[2017-04-27 15:00:10.164] [DEBUG] CFDA - Query = SELECT COUNT(*) AS count FROM Patient JOIN Sample ON Patient.id = Sample.patientId WHERE Patient.name LIKE '%ab%'    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:21:9
+[2017-05-17 14:40:23.126] [DEBUG] CFDA - Auth is off    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:58:7)
+[2017-05-17 14:40:23.172] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-06-02 10:18:50.813] [DEBUG] CFDA - Auth is on    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:20:7)
+[2017-06-02 10:18:50.845] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-06-02 10:22:07.740] [DEBUG] CFDA - Has token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6NywibGV2ZWwiOjAsInVzZXJuYW1lIjoiYWRtaW4ifSwiaWF0IjoxNDk2NDIzNTExfQ.QSePr4ZPeN2zfnzTwgEtwXDPfoUuxJEDDc4cpIlAiDw    at /Users/zack/Documents/svn/SGI_CFDA_server/urls.js:27:11
+[2017-06-02 10:22:07.742] [DEBUG] CFDA - PAYLOAD: {"user":{"userId":7,"level":0,"username":"admin"},"iat":1496423511}    at /Users/zack/Documents/svn/SGI_CFDA_server/urls.js:40:15
+[2017-06-02 10:22:07.760] [DEBUG] CFDA - Error in connection with database: connect ECONNREFUSED 127.0.0.1:3306    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:14:11
+[2017-06-02 10:22:07.763] [DEBUG] CFDA - Error when getting waiting to confirm sample: Error: Failed to make connection    at /Users/zack/Documents/svn/SGI_CFDA_server/webRouter/sample.js:555:21
+[2017-06-02 10:22:07.778] [DEBUG] CFDA - Error in connection with database: connect ECONNREFUSED 127.0.0.1:3306    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:14:11
+[2017-06-02 10:28:07.053] [DEBUG] CFDA - Auth is on    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:20:7)
+[2017-06-02 10:28:07.093] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-06-02 10:28:12.192] [DEBUG] CFDA - Has token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6NywibGV2ZWwiOjAsInVzZXJuYW1lIjoiYWRtaW4ifSwiaWF0IjoxNDk2NDIzNTExfQ.QSePr4ZPeN2zfnzTwgEtwXDPfoUuxJEDDc4cpIlAiDw    at /Users/zack/Documents/svn/SGI_CFDA_server/urls.js:27:11
+[2017-06-02 10:28:12.194] [DEBUG] CFDA - PAYLOAD: {"user":{"userId":7,"level":0,"username":"admin"},"iat":1496423511}    at /Users/zack/Documents/svn/SGI_CFDA_server/urls.js:40:15
+[2017-06-02 10:28:12.211] [DEBUG] CFDA - Connection success    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:19:9
+[2017-06-02 10:28:12.212] [DEBUG] CFDA - Query = SELECT COUNT(*) AS count FROM Patient JOIN Sample ON Patient.id = Sample.patientId JOIN File ON Sample.sampleNumber = File.sampleNumber WHERE File.status = 2    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:21:9
+[2017-06-02 10:28:13.248] [DEBUG] CFDA - Connection success    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:19:9
+[2017-06-02 10:28:13.249] [DEBUG] CFDA - Query = SELECT Patient.id, Patient.name, gender, dob, hospitalNumber, pathologicNumber, clinicalDiagnosis, Patient.comment AS patientComment, Sample.id AS sampleId, Sample.sampleNumber, material, site, tumorCellContent, pathologicDiagnosis, inspectionDate, Sample.comment AS sampleComment, File.status AS sampleStatus, File.url FROM Patient JOIN Sample ON Patient.id = Sample.patientId LEFT JOIN File ON Sample.sampleNumber = File.sampleNumber WHERE File.status = 2 ORDER BY name LIMIT 0, 20    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:21:9
+[2017-06-02 12:31:03.289] [DEBUG] CFDA - Auth is on    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:20:7)
+[2017-06-02 12:31:03.331] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-06-02 12:42:53.596] [DEBUG] CFDA - Auth is on    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:20:7)
+[2017-06-02 12:42:53.633] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-06-02 12:44:34.424] [DEBUG] CFDA - Auth is on    at Object.<anonymous> (/Users/zack/Documents/svn/SGI_CFDA_server/urls.js:20:7)
+[2017-06-02 12:44:34.466] [DEBUG] CFDA - Listening on port 3100    at Server.onListening (/Users/zack/Documents/svn/SGI_CFDA_server/index.js:92:7)
+[2017-06-02 12:45:18.241] [DEBUG] CFDA - POST Body:     at /Users/zack/Documents/svn/SGI_CFDA_server/app.js:31:9
+[2017-06-02 12:45:18.241] [DEBUG] CFDA - {"sampleId":"2"}    at /Users/zack/Documents/svn/SGI_CFDA_server/app.js:32:9
+[2017-06-02 12:45:18.244] [DEBUG] CFDA - Has token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6NywibGV2ZWwiOjAsInVzZXJuYW1lIjoiYWRtaW4ifSwiaWF0IjoxNDk2NDI3ODMzfQ.GEX-n-WESaU_jr41wbODl67WVBjjzpIwrQARgcY8jxk    at /Users/zack/Documents/svn/SGI_CFDA_server/urls.js:27:11
+[2017-06-02 12:45:18.246] [DEBUG] CFDA - PAYLOAD: {"user":{"userId":7,"level":0,"username":"admin"},"iat":1496427833}    at /Users/zack/Documents/svn/SGI_CFDA_server/urls.js:40:15
+[2017-06-02 12:45:54.025] [DEBUG] CFDA - POST Body:     at /Users/zack/Documents/svn/SGI_CFDA_server/app.js:31:9
+[2017-06-02 12:45:54.026] [DEBUG] CFDA - {"sampleId":"2"}    at /Users/zack/Documents/svn/SGI_CFDA_server/app.js:32:9
+[2017-06-02 12:45:54.026] [DEBUG] CFDA - Has token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6NywibGV2ZWwiOjAsInVzZXJuYW1lIjoiYWRtaW4ifSwiaWF0IjoxNDk2NDI3ODMzfQ.GEX-n-WESaU_jr41wbODl67WVBjjzpIwrQARgcY8jxk    at /Users/zack/Documents/svn/SGI_CFDA_server/urls.js:27:11
+[2017-06-02 12:45:54.027] [DEBUG] CFDA - PAYLOAD: {"user":{"userId":7,"level":0,"username":"admin"},"iat":1496427833}    at /Users/zack/Documents/svn/SGI_CFDA_server/urls.js:40:15
+[2017-06-02 12:45:54.038] [DEBUG] CFDA - Connection success    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:19:9
+[2017-06-02 12:45:54.039] [DEBUG] CFDA - Query = UPDATE Sample JOIN File ON Sample.sampleNumber = File.sampleNumber SET File.status = 3 WHERE Sample.id = '2' AND File.status = 2    at /Users/zack/Documents/svn/SGI_CFDA_server/mysqlConnection.js:21:9
